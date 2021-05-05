@@ -109,7 +109,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="78.0" prefWidth="66.0" text="Limpar" GridPane.columnIndex="3" />
+            <Button fx:id="btLimpar" mnemonicParsing="false" onAction="#onBtLimparAction" prefHeight="78.0" prefWidth="66.0" text="Limpar" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </children>

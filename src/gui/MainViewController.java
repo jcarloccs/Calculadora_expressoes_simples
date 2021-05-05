@@ -202,7 +202,6 @@ public class MainViewController implements Initializable {
             	visorTemp.setText(listaCalc.getTextoVisor());
             	Restricoes.separarNumerosVisor(visorTemp.getText().toString(), visor);
             	listaCalc.setTextoVisor("");
-            	
             }
         }
 	}

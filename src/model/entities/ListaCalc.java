@@ -94,7 +94,50 @@ public class ListaCalc {
         return false;
 
     }
+    
+    public boolean inserirExpressao(String expressao) {
 
+        String[] expressaoCortada = expressao.split("(?=[÷]|[-]|[×]|[+]|[%]|[(]|[)])|(?<=[÷]|[-]|[×]|[+]|[%]|[(]|[)])");
+        
+        try {
+            
+        	for (String x : expressaoCortada) {
+                
+            	if (x.equals("÷")) listaExpress.add(new Items(Operadores.DIVISAO));
+            	else if (x.equals("×")) listaExpress.add(new Items(Operadores.MULTIPLICACAO));
+            	else if (x.equals("-")) listaExpress.add(new Items(Operadores.SUBTRACAO));
+            	else if (x.equals("+")) listaExpress.add(new Items(Operadores.ADICAO));
+            	else if (x.equals("%")) listaExpress.add(new Items(Operadores.PORCENTAGEM));
+            	else if (x.equals("(")) listaExpress.add(new Items(Parenteses.ABERTO));
+            	else if (x.equals(")")) listaExpress.add(new Items(Parenteses.FECHADO));
+            	else listaExpress.add(new Items(new BigDecimal(x)));
+            	
+            }
+
+            if (listaExpress.size() <= 1) {// se tiver somente 1 item item ele não executa a operação
+                listaExpress.clear();
+                textoVisor = aux;
+                return false; // impede que imprima algo no visor
+            } else
+                organizarItems(listaExpress);
+
+            return true; // confirma a impressão do resultado no visor
+
+        } catch (NumInvalidoException e) {
+            textoVisor = e.visor;
+            listaExpress.clear();
+            return false; // impede que imprima algo no visor
+        } catch (ArithmeticException e) {
+            textoVisor = "Erro";
+            listaExpress.clear();
+            return false; // impede que imprima algo no visor
+        } catch (NumberFormatException e) {
+            textoVisor = "Erro de sintaxe";
+            listaExpress.clear();
+            return false; // impede que imprima algo no visor
+        }
+    }
+/*
     public boolean inserirExpressao(String expressao) {
 
         String temp = "";
@@ -160,7 +203,7 @@ public class ListaCalc {
             return false; // impede que imprima algo no visor
         }
     }
-
+*/
     public void organizarItems(List<Items> listacalc) {
 
         List<Items> listaprov;

@@ -95,6 +95,7 @@ public class ListaCalc {
 
     }
     
+    // colocar itens da expressão matemática numa lista
     public boolean inserirExpressao(String expressao) {
 
         String[] expressaoCortada = expressao.split("(?=[÷]|[-]|[×]|[+]|[%]|[(]|[)])|(?<=[÷]|[-]|[×]|[+]|[%]|[(]|[)])");
@@ -103,15 +104,17 @@ public class ListaCalc {
             
         	for (String x : expressaoCortada) {
                 
-            	if (x.equals("÷")) listaExpress.add(new Items(Operadores.DIVISAO));
-            	else if (x.equals("×")) listaExpress.add(new Items(Operadores.MULTIPLICACAO));
-            	else if (x.equals("-")) listaExpress.add(new Items(Operadores.SUBTRACAO));
-            	else if (x.equals("+")) listaExpress.add(new Items(Operadores.ADICAO));
-            	else if (x.equals("%")) listaExpress.add(new Items(Operadores.PORCENTAGEM));
-            	else if (x.equals("(")) listaExpress.add(new Items(Parenteses.ABERTO));
-            	else if (x.equals(")")) listaExpress.add(new Items(Parenteses.FECHADO));
-            	else listaExpress.add(new Items(new BigDecimal(x)));
-            	
+        		switch(x) {
+        			case "÷": listaExpress.add(new Items(Operadores.DIVISAO)); break;
+        			case "×": listaExpress.add(new Items(Operadores.MULTIPLICACAO)); break;
+        			case "-": listaExpress.add(new Items(Operadores.SUBTRACAO)); break;
+        			case "+": listaExpress.add(new Items(Operadores.ADICAO)); break;
+        			case "%": listaExpress.add(new Items(Operadores.PORCENTAGEM)); break;
+        			case "(": listaExpress.add(new Items(Parenteses.ABERTO)); break;
+        			case ")": listaExpress.add(new Items(Parenteses.FECHADO)); break;
+        			default: listaExpress.add(new Items(new BigDecimal(x)));
+        		}
+        		
             }
 
             if (listaExpress.size() <= 1) {// se tiver somente 1 item item ele não executa a operação
@@ -137,73 +140,8 @@ public class ListaCalc {
             return false; // impede que imprima algo no visor
         }
     }
-/*
-    public boolean inserirExpressao(String expressao) {
 
-        String temp = "";
-
-        try {
-            for (int i = 0; i < expressao.length(); i++) {
-
-                if (Character.toString(expressao.charAt(i)).matches("[÷]|[-]|[×]|[+]|[%]|[(]|[)]")) {
-
-                    if (!(temp == "")) { // testa se temp está vazio. Se não estiver adiciona o número Double na lista
-                        listaExpress.add(new Items(new BigDecimal(temp)));
-                        temp = "";
-                    }
-
-                    if (expressao.charAt(i) == '÷')
-                        listaExpress.add(new Items(Operadores.DIVISAO));
-                    else if (expressao.charAt(i) == '×')
-                        listaExpress.add(new Items(Operadores.MULTIPLICACAO));
-                    else if (expressao.charAt(i) == '-')
-                        listaExpress.add(new Items(Operadores.SUBTRACAO));
-                    else if (expressao.charAt(i) == '+')
-                        listaExpress.add(new Items(Operadores.ADICAO));
-                    else if (expressao.charAt(i) == '%')
-                        listaExpress.add(new Items(Operadores.PORCENTAGEM));
-                    else if (expressao.charAt(i) == '(')
-                        listaExpress.add(new Items(Parenteses.ABERTO));
-                    else if (expressao.charAt(i) == ')')
-                        listaExpress.add(new Items(Parenteses.FECHADO));
-
-                }
-
-                else {
-                    // concatena os números pra depois converter em Double
-                    temp += Character.toString(expressao.charAt(i));
-                }
-
-            }
-
-            // adiciona os últimos numerais Double na lista depois do último operador
-            if (!(temp == ""))
-                listaExpress.add(new Items(new BigDecimal(temp)));
-
-            if (listaExpress.size() <= 1) {// se tiver somente 1 item item ele não executa a operação
-                listaExpress.clear();
-                textoVisor = aux;
-                return false; // impede que imprima algo no visor
-            } else
-                organizarItems(listaExpress);
-
-            return true; // confirma a impressão do resultado no visor
-
-        } catch (NumInvalidoException e) {
-            textoVisor = e.visor;
-            listaExpress.clear();
-            return false; // impede que imprima algo no visor
-        } catch (ArithmeticException e) {
-            textoVisor = "Erro";
-            listaExpress.clear();
-            return false; // impede que imprima algo no visor
-        } catch (NumberFormatException e) {
-            textoVisor = "Erro de sintaxe";
-            listaExpress.clear();
-            return false; // impede que imprima algo no visor
-        }
-    }
-*/
+    // prepara a expressão para calcular números dentro de parênteses primeiro e porcentagem tem quase a mesma função dos parênteses
     public void organizarItems(List<Items> listacalc) {
 
         List<Items> listaprov;
@@ -282,6 +220,7 @@ public class ListaCalc {
 
     }
 
+    // cálculo bruto
     public void calculo(List<Items> listacalc) {
 
         int i;

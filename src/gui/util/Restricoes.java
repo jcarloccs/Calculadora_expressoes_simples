@@ -9,6 +9,7 @@ import model.entities.ListaCalc;
 
 public class Restricoes {
 	
+	// formata a expressão no visor da calculadora
 	public static void separarNumerosVisor(String texto, Label visor) {
 
         Locale.setDefault(Locale.US);
@@ -37,61 +38,7 @@ public class Restricoes {
         visor.setText(expressaoResultado);
 
     }
-/*
-	public static void separarNumerosVisor2(String texto, Label visor) {
 
-        Locale.setDefault(Locale.US);
-        DecimalFormat decimalformat = new DecimalFormat(",###.###############");
-
-        String numero = "";
-        String expressaoResultado = "";
-
-        for (int i = 0; i < texto.length(); i++) {
-
-            if (Character.toString(texto.charAt(i)).matches("\\d|\\.")) {
-                numero += texto.charAt(i);
-            }
-            else {
-                if (!numero.equals("")) {
-                    expressaoResultado += decimalformat.format(new BigDecimal(numero));
-
-                    if (numero.matches(".*\\d\\.\\d.*")) {
-                        if (!decimalformat.format(new BigDecimal(numero)).matches(".*\\..*")) expressaoResultado += ".";
-                        int j = numero.length() - 1;
-                        while (numero.charAt(j) == '0') {
-                            expressaoResultado += "0";
-                            j--;
-                        }
-                    }
-
-                    numero = "";
-                }
-                expressaoResultado += texto.charAt(i);
-            }
-
-        }
-        if (!numero.equals("")) {
-            expressaoResultado += decimalformat.format(new BigDecimal(numero));
-
-            if (numero.charAt(numero.length()-1) == '.') expressaoResultado += ".";
-            else if (numero.matches(".*\\d\\.\\d.*")) {
-                if (!decimalformat.format(new BigDecimal(numero)).matches(".*\\..*")) expressaoResultado += ".";
-                int j = numero.length() - 1;
-                while (numero.charAt(j) == '0') {
-                    expressaoResultado += "0";
-                    j--;
-                }
-            }
-        }
-
-        expressaoResultado = expressaoResultado.replace(",", ";");
-        expressaoResultado = expressaoResultado.replace(".", ",");
-        expressaoResultado = expressaoResultado.replace(";", ".");
-
-        visor.setText(expressaoResultado);
-
-    }
-*/
 	public static void quantidadeCaracteres(Label visorTemp, ListaCalc listaCalc) {
 		visorTemp.textProperty().addListener((obs, oldValue, newValue) -> {
 			

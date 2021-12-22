@@ -11,29 +11,32 @@ public class Restricoes {
 	
 	// formata a expressão no visor da calculadora
 	public static void separarNumerosVisor(String texto, Label visor) {
-
+		
         Locale.setDefault(Locale.US);
         DecimalFormat decimalformat = new DecimalFormat(",###.###############");
 
         String expressaoResultado = "";
-        String[] expressaoCortada = texto.split("(?=[÷]|[-]|[×]|[+]|[%]|[(]|[)])|(?<=[÷]|[-]|[×]|[+]|[%]|[(]|[)])");
         
-        for (int i = 0; i < expressaoCortada.length; i++) {
-        	if (expressaoCortada[i].matches(".*\\.$")) {
-        		expressaoCortada[i] = decimalformat.format(new BigDecimal(expressaoCortada[i].substring(0, expressaoCortada[i].length() - 1))) + ".";
-        	}
-        	else if (!expressaoCortada[i].matches("[÷]|[-]|[×]|[+]|[%]|[(]|[)]")) {
-        		expressaoCortada[i] = decimalformat.format(new BigDecimal(expressaoCortada[i]));
-        	}
+        if (!texto.isEmpty()) {
+	        String[] expressaoCortada = texto.split("(?=[÷]|[-]|[×]|[+]|[%]|[(]|[)])|(?<=[÷]|[-]|[×]|[+]|[%]|[(]|[)])");
+	        
+	        for (int i = 0; i < expressaoCortada.length; i++) {
+	        	if (expressaoCortada[i].matches(".*\\.$")) {
+	        		expressaoCortada[i] = decimalformat.format(new BigDecimal(expressaoCortada[i].substring(0, expressaoCortada[i].length() - 1))) + ".";
+	        	}
+	        	else if (!expressaoCortada[i].matches("[÷]|[-]|[×]|[+]|[%]|[(]|[)]")) {
+	        		expressaoCortada[i] = decimalformat.format(new BigDecimal(expressaoCortada[i]));
+	        	}
+	        }
+	        
+	        for (String x : expressaoCortada) {
+	        	expressaoResultado += x;
+	        }
+	
+	        expressaoResultado = expressaoResultado.replace(",", ";");
+	        expressaoResultado = expressaoResultado.replace(".", ",");
+	        expressaoResultado = expressaoResultado.replace(";", ".");
         }
-        
-        for (String x : expressaoCortada) {
-        	expressaoResultado += x;
-        }
-
-        expressaoResultado = expressaoResultado.replace(",", ";");
-        expressaoResultado = expressaoResultado.replace(".", ",");
-        expressaoResultado = expressaoResultado.replace(";", ".");
 
         visor.setText(expressaoResultado);
 

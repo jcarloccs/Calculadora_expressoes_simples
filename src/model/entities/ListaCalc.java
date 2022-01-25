@@ -2,7 +2,7 @@ package model.entities;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import exceptions.NumInvalidoException;
@@ -11,7 +11,7 @@ import model.enums.Parenteses;
 
 public class ListaCalc {
 
-    private List<Items> listaExpress = new ArrayList<>();
+    private List<Items> listaExpress = new LinkedList<>();
     private String textoVisor = "", aux;
 
     public String getTextoVisor() {
@@ -158,21 +158,34 @@ public class ListaCalc {
                     existeParenteses = true;
                     break;
                 } else if (listacalc.get(i).getOperador() == Operadores.PORCENTAGEM && i >= 3){
-                    if (!(listacalc.get(i - 1).getNumero() == null)) {
-                        if (listacalc.get(i - 2).getOperador() == Operadores.SUBTRACAO || listacalc.get(i - 2).getOperador() == Operadores.ADICAO) {
-                            if (listacalc.get(i - 3).getOperador() == Operadores.PORCENTAGEM) {
-                                if (!(listacalc.get(i - 4).getNumero() == null)) {
-                                    porcent = i;
-                                    existePorcent = true;
-                                    break;
-                                }
-                            }
-                            else if (!(listacalc.get(i - 3).getNumero() == null)) {
-                                porcent = i;
-                                existePorcent = true;
-                                break;
-                            }
-                        }
+                	
+                    boolean temNumero1Antes = !(listacalc.get(i - 1).getNumero() == null);
+                    if (temNumero1Antes) {
+                    	
+                    	boolean temSubtracao2Antes = listacalc.get(i - 2).getOperador() == Operadores.SUBTRACAO;
+                    	boolean temAdicao2Antes = listacalc.get(i - 2).getOperador() == Operadores.ADICAO;
+                    	
+                    	if (temSubtracao2Antes || temAdicao2Antes) {
+                        	
+                    		boolean temPorcento3Antes = listacalc.get(i - 3).getOperador() == Operadores.PORCENTAGEM;
+                        	boolean temNumero3Antes = !(listacalc.get(i - 3).getNumero() == null);
+	                        
+                        	if (temPorcento3Antes) {
+                        		
+	                        	boolean temNumero4Antes = !(listacalc.get(i - 4).getNumero() == null);
+	                        	
+	                            if (temNumero4Antes) {
+	                                porcent = i;
+	                                existePorcent = true;
+	                                break;
+	                            }
+	                        }
+	                        else if (temNumero3Antes) {
+	                            porcent = i;
+	                            existePorcent = true;
+	                            break;
+	                        }
+                    	}
                     }
                 }
             }
